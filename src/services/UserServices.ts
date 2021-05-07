@@ -4,6 +4,7 @@ import { UserRepository } from "../repositories/UserRepository"
 
 class UserServices{
     private userRepository: Repository<User>
+    
     constructor(){
         this.userRepository=getCustomRepository(UserRepository);
     }
@@ -24,6 +25,14 @@ class UserServices{
         //se não existir salva no bd
         //se existir, retornar user 
         return user;
+    }
+    async findByEmail(email){
+        const user= await this.userRepository.findOne({email})
+        if(!user){
+            return null
+        }else{
+            return user;
+        }
     }
 }
 

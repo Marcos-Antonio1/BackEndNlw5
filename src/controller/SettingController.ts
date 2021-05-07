@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getCustomRepository } from 'typeorm';
+import { getCustomRepository, RepositoryNotTreeError } from 'typeorm';
 import { SettingsServices } from "../services/SettingServices";
 
 
@@ -16,6 +16,26 @@ class SettingController {
             })
         }
     }
+    async findByUserName(request:Request,response:Response){
+        const {username} = request.params;
+        const settingsServices = new SettingsServices()
+
+        const settings = await  settingsServices.findByUserName(username)
+
+        return response.json(settings)
+    }
+
+    async update(request:Request,response:Response){
+        const {username} = request.params;
+        const {chat}= request.body;
+
+        const settingsServices = new SettingsServices()
+
+        const settings = await  settingsServices.update(username,chat)
+
+        return response.json(settings)
+    }
+
 }
 
 export {SettingController}
